@@ -1,12 +1,37 @@
+import os
 import csv
 #import any additional libraries for odd functions
 
-#open the budget_data file for reading
-#use the activity examples for getting the headers from the file into a list 
-#put all the budget data in a list that can be indexed
-#creating a list of each colum of data to be analyzed
+#set the budget_data file path
+datapath = os.path.join("", "Resources", "budget_data.csv")
 
-#use the month column to get the total number of months 
+def total_revenue(revenue_amt):
+    #accumulate the revenue total
+    revenue = revenue + int(revenue_amt[1])
+    print(f"Total: ${revenue}")
+
+#def revenue(P_and_L)
+    # profit_loss = int(budget_data[1])
+
+#open the budget_data file for reading
+with open(datapath) as datafile:
+
+    #skip the header row
+    data_header = next(datafile)
+    
+    #datareader specifies the delimiter and stores the file content
+    datareader = csv.reader(datafile, delimiter=",")
+    
+    print(f"Financial Analysis")
+    print(f"--------------------------")
+
+    #get the numnber of months in the budget_data file
+    months = datafile.readlines()
+    print(f"Total Months: {len(months)}")
+
+    for row in datareader:
+       print(f"Budget Data: {row[1]}")
+
 
 #  use the  "Profit/Losses"  column to caluculate the total over the entire period
 
@@ -27,6 +52,7 @@ import csv
 #   Greatest Increase in Profits: Feb-2012 ($1926159)
 #   Greatest Decrease in Profits: Sep-2013 ($-2196167)
 #   ```
+# printing the financial analysis to the terminal
+   
 
 # print the analysis to the terminal and export a fin_results.txt file with the results.
-# fin_results.txt needs to be opened for writing and then closed after writing
