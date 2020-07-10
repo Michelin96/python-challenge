@@ -38,8 +38,8 @@ with open(datapath, 'r') as datafile:
 
 # calculate the percentage of votes each candidate received
 for item in results:
-    percent =(item["votes"]/total_votes) * 100
-    item["percent"] = round(percent, 2)
+    percent =f'{(item["votes"]/total_votes) * 100: .3f}'
+    item["percent"] = percent
 
 #check for the winner
 for item in results:
