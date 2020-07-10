@@ -4,24 +4,7 @@ import csv
 #set the budget_data file path
 datapath = os.path.join("", "Resources", "budget_data.csv")
 
-#open the budget_data file for getting the total months
-with open(datapath, 'r') as datafile:
-
-    #skip the header row
-    data_header = next(datafile)
-        
-    #datareader specifies the delimiter and stores the file content
-    datareader = csv.reader(datafile, delimiter=",")
-
-    print(f"\nFinancial Analysis")
-    print(f"--------------------------")
-
-    #get the number of months in the budget_data file
-    months = datafile.readlines()
-    total_months = len(months)
-    print(f"Total Months: {total_months}")
-
-#open the budget_data file for calculating the profit and loss
+#open the budget_data file
 with open(datapath, 'r') as datafile:
 
     #skip the header row
@@ -31,6 +14,7 @@ with open(datapath, 'r') as datafile:
     datareader = csv.reader(datafile, delimiter=",")
 
     #set the vairbales for the calculation totals
+    total_months = 0
     rev_total = 0
     most_increase = 0
     most_decrease = 0
@@ -39,6 +23,9 @@ with open(datapath, 'r') as datafile:
     prev_row = 0
 
     for row in datareader:
+
+        #get the number of months from budget_data
+        total_months = total_months + 1
         #calculate the total revene from budget_data
         revenue = int(row[1])
         rev_total += revenue
@@ -65,6 +52,9 @@ with open(datapath, 'r') as datafile:
     #Averge change in profits over the period. First month has no change.
     avg_change = change_total / (total_months - 1)
     
+    print(f"\nFinancial Analysis")
+    print(f"--------------------------")
+    print(f"Total Months: {total_months}")
     print(f"Total: ${rev_total}")
     print(f"Average Change: ${round(avg_change,2)}")
     print(f"Greatest Increase in Profits: {month_inc} (${most_increase})")

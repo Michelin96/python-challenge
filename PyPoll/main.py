@@ -13,73 +13,50 @@ with open(datapath, 'r') as datafile:
     #specify the datafile delimiter and stores the file content
     election_results = csv.reader(datafile, delimiter=",")
 
-    #create a list of the candidates that received votes
+    #create a list of the candidates that received votes and their results
     candidates = []
     results = []
+    #set the global veriables
     total_votes = 0
-    votes = 0
+    most_votes = 0
     percent = 0
 
     for row in election_results:
         #tally the total votes
         total_votes = total_votes + 1
         #create candidates list
-        if row[2] not in candidates:
-            candidates.append(row[2])
-            name = row[2]
-            results.append({"name" : name, "votes" : 0, "percent": 0})
-            
+        name = row[2]
+        if name not in candidates:
+            candidates.append(name)
+            #the first time we find a new candidate they get 1 vote
+            results.append({"name" : name, "votes" : 1, "percent": percent})
+        else:
+            #each time we find an existing candidate we add 1 to their votes in the results list
+            for item in results:
+                if name == item["name"]:
+                    item["votes"] += 1
 
-    # with open(datapath, 'r') as datafile:
-    # #skip the header row
-    # data_header = next(datafile)
-    
-    # #specify the datafile delimiter and stores the file content
-    # election_results = csv.reader(datafile, delimiter=",")
+# calculate the percentage of votes each candidate received
+for item in results:
+    percent =(item["votes"]/total_votes) * 100
+    item["percent"] = round(percent, 2)
+
+#check for the winner
+for item in results:
+    if most_votes < item["votes"]:
+        most_votes = item["votes"]
+        winner = item["name"]
+
+#display the election results
 print(f"\nElection Results")
 print(f"--------------------------")
 print(f"Total Votes: {total_votes}")
 print(f"--------------------------")
 for item in results:
     print(f"{item['name']}: {item['percent']}% ({item['votes']})")
+print(f"--------------------------")
+print(f"Winner: {winner}")
 print(f"--------------------------\n")
-#print(f"Winner: {winner}\n")
-print(f"--------------------------\n")
-#print(f"Results Dictionary: {results}")
-# #open the election_data file to tally the votes
-# cndt_votes = 0
-# results = []
-# for name in candidates:
-#     results.append({'votes': cndt_votes + 1})
-# print(f"The results list: {results}")
-
-
-#   * The percentage of votes each candidate won
-
-#   * The total number of votes each candidate won
-
-#   * The winner of the election based on popular vote.
-
-# * As an example, your analysis should look similar to the one below:
-
-#   ```text
-#   Election Results
-#   -------------------------
-#   Total Votes: 3521001
-#   -------------------------
-#   Khan: 63.000% (2218231)
-#   Correy: 20.000% (704200)
-#   Li: 14.000% (492940)
-#   O'Tooley: 3.000% (105630)
-#   -------------------------
-#   Winner: Khan
-#   -------------------------
-# check for the winner
-# #for name in candidates:
-#     if most_votes < candidates["votes"]:
-#         most_votes = candidates["votes"]
-#         winner = candidates["name"]
-
 
 # write the analysis results to fin_analysis.txt file.
 analysispath = os.path.join("", "Analysis", "election_results.txt")
@@ -88,10 +65,8 @@ with open(analysispath, 'w') as textfile:
     textfile.write(f"--------------------------\n")
     textfile.write(f"Total Votes: {total_votes}\n")
     textfile.write(f"--------------------------\n")
-        
     for item in results:
         textfile.write(f"{item['name']}: {item['percent']}% ({item['votes']}) \n")
-        
     textfile.write(f"--------------------------\n")
-    #textfile.write(f"Winner: {winner}\n")
+    textfile.write(f"Winner: {winner}\n")
     textfile.write(f"--------------------------\n")
