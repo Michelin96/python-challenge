@@ -33,20 +33,18 @@ with open(datapath, 'r') as datafile:
         # find the difference between the current month's profit and the previous month's profit
         if prev_row != 0:
             change = int(row[1]) - prev_row
-        change_total += change
 
-        profits = int(row[1])
-        losses = int(row[1])
-        
-        #calculate greatest profit and loss for the period
-        if profits > most_increase:
-            most_increase = profits
+        #store the total change
+        change_total += change
+        #calculate greatest change in profit and loss for the period
+        if most_increase < change:
+            most_increase = change
             month_inc = str(row[0])
-        elif losses < most_decrease:
-            most_decrease = losses
+        elif most_decrease > change:
+            most_decrease = change
             month_dec = str(row[0])
-        
-        #store the profit for this row to use on the next row
+
+        #store the profit/loss for this row to use on the next row
         prev_row = int(row[1])
 
     #Averge change in profits over the period. First month has no change.
